@@ -1,0 +1,125 @@
+﻿@model IEnumerable<AspTaskDemo.Models.Task>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!-- template from http://getbootstrap.com/getting-started -->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- CSS Includes -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href="@Url.Content("~/Content/TaskStyles.css")" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .crossed {
+            text-decoration: line-through;
+        }
+    </style>
+
+    <style type="text/css">
+        .notCrossed {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="mainContainer">
+        <div id="headerTxt">
+            <h3 style="font-weight:bold">To Do List</h3>
+        </div>
+            <div class="flex-container">
+                <div class="flex-item  flex-one"><textarea type="text" placeholder="New Task..." id="inputTxtBox"></textarea></div>
+                <div class="flex-item flex-two"><input type="button" value="Add Task" class="btn btn-primary" id="addTaskBtn" /></div>
+                    <div class="flex-item flex-three">
+                        <table class="table table-condensed table-hover">
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle;"><input id="checkbox" type="checkbox" checked="@item.IsCompleted"/></td>
+                                        <td style="text-align: left; vertical-align: middle; font-weight:bold; padding-top:10px;"><label id="taskVal" class="@(item.IsCompleted ? "crossed" : "notCrossed")">@item.Description</label></td>
+                                        <td style="vertical-align: middle;"><button type="submit" id="removeBtn">Remove</button></td>
+                                   </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+
+            <!-- JS includes -->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+            <script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+
+            <script type="text/javascript">
+
+                $("input[type=checkbox]").change(function () {
+                    var taskVal = $(this).closest("tr")
+                        .find("#taskVal")
+                        .text();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/ToDo/Update",
+                        contentType: "application/json; charset=utf-8",
+                        data: '{taskValue:' + JSON.stringify(taskVal) + ', isCompleted:' + JSON.stringify(this.checked) + '}',
+                        dataType: "text",
+                        processData: false,
+                        success: function () {
+                            window.location.reload(true);
+                        }
+                    });
+                });
+
+                $('#addTaskBtn').click(function () {
+                            var newTask = $('#inputTxtBox').val();
+                            console.log(newTask);
+                            $.ajax({
+                                type:"POST",
+                                url: "/ToDo/Add",
+                                contentType: "application/json; charset=utf-8",
+                                data: '{newTask:' + JSON.stringify(newTask) + '}',
+                                dataType: "text",
+                                processData: false,
+                                success: function () {
+                                    window.location.reload(true);
+                                }               
+                            });
+                         });
+                
+                $("tr").on('click', function () {
+                    if ($(event.target).is('button')) {
+                        var taskVal = $(this).closest("tr")
+                            .find("#taskVal")
+                            .text();
+
+                        console.log(taskVal);
+                        $.ajax({
+                            type: "POST",
+                            url: "/ToDo/Remove",
+                            contentType: "application/json; charset=utf-8",
+                            data: '{taskValue:' + JSON.stringify(taskVal) + '}',
+                            dataType: "text",
+                            processData: false,
+                            success: function () {
+                                window.location.reload(true);
+                            }
+                        });
+                    }
+                });
+             
+            </script>
+    </div>
+</body>
+</html>

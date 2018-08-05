@@ -1,0 +1,93 @@
+﻿#mainContainer {
+    border-radius: 10px;
+    background: #d9d9d9;
+    width: 900px;
+}
+
+#headerTxt {
+    text-align: center;
+}
+
+#inputTxtBox {
+    height: 100%;
+    width: 100%;
+    background-color: #eeeeee;
+    border-radius: 3px;
+    border: solid 2px #bfbfbf;
+    resize: none;
+    padding: 10px;
+}
+
+#addTaskBtn {
+    height: 100%;
+    width: 100%;
+    background-color: #fdd797;
+    border: solid 2px #bfbfbf;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+}
+
+#checkbox {
+    border: 1px inset #bfbfbf;
+    background: #eeeeee;
+    width: 20px;
+    height: 20px;
+    padding: 20px;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
+#removeBtn {
+    margin-right: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    border: solid 1px #bfbfbf;
+    float: right;
+    height: 25px;
+}
+
+table {
+    outline: solid 2px #bfbfbf;
+    background: #eeeeee;
+}
+
+tr {
+    border-top: 2px groove white;
+    height: 50px;
+}
+
+td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+tr td:first-child {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-item {
+    margin: 10px;
+    min-width: 0;
+}
+
+.flex-one {
+    flex: 1 0 65%;
+}
+
+.flex-two {
+    flex: 0 1 20%;
+}
+
+.flex-three {
+    flex: 0 1 100%;
+}
+
